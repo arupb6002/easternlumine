@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Widget Product Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="product-container">
+        <h1>Elite Widget Pro</h1>
+        <p class="product-description">
+            The pinnacle of engineering, guaranteed to enhance your productivity.
+        </p>
+
+        <div class="pricing-details">
+            <span class="unit-price-label">Unit Price: ₹</span>
+            <span id="unit-price-display">1.00</span>
+        </div>
+
+        <div class="quantity-selector">
+            <label for="quantity">Quantity:</label>
+            <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                data-base-price="1.00"
+                value="1"
+                min="1"
+                oninput="updatePrice()"
+            >
+        </div>
+
+        <div class="total-section">
+            <h2>Total Price: ₹<span id="total-price">1.00</span></h2>
+        </div>
+
+        <input type="hidden" id="product-name" value="Elite Widget Pro">
+
+        <button id="buy-now-button" onclick="prepareCheckout()">
+            Buy Now
+        </button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

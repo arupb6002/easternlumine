@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - Elite Widget Pro</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Razorpay checkout script -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+    <div class="checkout-form">
+        <h2>Order Summary</h2>
+        <p>Product: <span id="summary-product"></span></p>
+        <p>Quantity: <span id="summary-quantity"></span></p>
+        <h3>Amount Due: ₹<span id="summary-total"></span></h3>
+
+        <form id="checkout-form" method="POST">
+            <fieldset>
+                <legend>Customer Details</legend>
+
+                <label for="c_name">Name:</label>
+                <input type="text" id="c_name" name="c_name" required>
+
+                <label for="mobile_no">Mobile No. (10 digits):</label>
+                <input
+                    type="tel"
+                    id="mobile_no"
+                    name="mobile_no"
+                    required
+                    pattern="[0-9]{10}"
+                    maxlength="10"
+                >
+            </fieldset>
+
+            <fieldset>
+                <legend>Shipping Address</legend>
+
+                <label for="building_street">Building/Street:</label>
+                <input type="text" id="building_street" name="building_street" required>
+
+                <label for="address">Locality/Area:</label>
+                <input type="text" id="address" name="address" required>
+
+                <label for="district">District:</label>
+                <input type="text" id="district" name="district" required>
+
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state" required>
+
+                <label for="pin_code">Pin Code:</label>
+                <input
+                    type="text"
+                    id="pin_code"
+                    name="pin_code"
+                    required
+                    pattern="[0-9]{6}"
+                    maxlength="6"
+                >
+            </fieldset>
+
+            <!-- hidden (backup/debug) -->
+            <input type="hidden" id="product-name-input" name="product_name">
+            <input type="hidden" id="quantity-input" name="quantity">
+            <input type="hidden" id="total-price-input" name="total_price">
+
+            <button type="submit" id="checkout-submit-button">
+                Checkout (Proceed to Payment)
+            </button>
+        </form>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="success-modal" class="modal">
+        <div class="modal-content-box">
+            <div class="page-body">
+                <div class="head">
+                    <h3 style="margin-top:5px;">Order Confirmed!</h3>
+                    <h4>Thank you for your purchase.</h4>
+                </div>
+
+                <div class="checkmark-circle">
+                    <div class="checkmark draw"></div>
+                </div>
+
+                <p>Your tracking code is:</p>
+                <h2 id="modal-track-code">EL00000000</h2>
+                <p class="order-details-summary"></p>
+
+                <button onclick="window.location.href='index.html';" class="btn-return">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
