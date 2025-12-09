@@ -637,392 +637,324 @@
         </div>
     </footer>
     
-    <script>
-        // ========== Global Variables ==========
-        let productPrice = 99; // Price per item
-        let quantity = 1; // Default quantity
-        let shippingCharge = 0;
-        let codCharge = 0;
-        let isCOD = false;
-        
-        // ========== DOM Elements ==========
-        const paymentMethods = document.querySelectorAll('.payment-method');
-        const onlinePayment = document.getElementById('onlinePayment');
-        const codPayment = document.getElementById('codPayment');
-        const checkoutBtn = document.getElementById('checkoutBtn');
-        
-        // Order Summary Elements
-        const orderQuantity = document.getElementById('orderQuantity');
-        const productTotal = document.getElementById('productTotal');
-        const subtotal = document.getElementById('subtotal');
-        const shippingText = document.getElementById('shippingText');
-        const codChargeEl = document.getElementById('codCharge');
-        const grandTotal = document.getElementById('grandTotal');
-        
-        // Form Elements
-        const formInputs = document.querySelectorAll('.form-input');
-        const errorMessages = document.querySelectorAll('.error-message');
-        const successMessage = document.getElementById('successMessage');
-        
-        // ========== Initialize Page ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get quantity from URL or localStorage
-            const urlParams = new URLSearchParams(window.location.search);
-            const savedQuantity = localStorage.getItem('checkoutQuantity');
-            
-            if (urlParams.has('quantity')) {
-                quantity = parseInt(urlParams.get('quantity'));
-            } else if (savedQuantity) {
-                quantity = parseInt(savedQuantity);
-            }
-            
-            // Update order summary
+<script>
+    // ========== Global Variables ==========
+    let productPrice = 99; // Price per item
+    let quantity = 1; // Default quantity
+    let shippingCharge = 0;
+    let codCharge = 0;
+    let isCOD = false;
+
+    // ========== DOM Elements ==========
+    const paymentMethods = document.querySelectorAll('.payment-method');
+    const onlinePayment = document.getElementById('onlinePayment');
+    const codPayment = document.getElementById('codPayment');
+    const checkoutBtn = document.getElementById('checkoutBtn');
+
+    // Order Summary Elements
+    const orderQuantity = document.getElementById('orderQuantity');
+    const productTotal = document.getElementById('productTotal');
+    const subtotal = document.getElementById('subtotal');
+    const shippingText = document.getElementById('shippingText');
+    const codChargeEl = document.getElementById('codCharge');
+    const grandTotal = document.getElementById('grandTotal');
+
+    // Form Elements
+    const formInputs = document.querySelectorAll('.form-input');
+    const errorMessages = document.querySelectorAll('.error-message');
+    const successMessage = document.getElementById('successMessage');
+
+    // ========== Initialize Page ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const savedQuantity = localStorage.getItem('checkoutQuantity');
+
+        if (urlParams.has('quantity')) {
+            quantity = parseInt(urlParams.get('quantity'));
+        } else if (savedQuantity) {
+            quantity = parseInt(savedQuantity);
+        }
+
+        updateOrderSummary();
+
+        const productData = localStorage.getItem('productData');
+        if (productData) {
+            const data = JSON.parse(productData);
+            productPrice = data.price || 99;
+            quantity = data.quantity || quantity;
             updateOrderSummary();
-            
-            // Get product details from localStorage
-            const productData = localStorage.getItem('productData');
-            if (productData) {
-                const data = JSON.parse(productData);
-                productPrice = data.price || 99;
-                quantity = data.quantity || quantity;
-                updateOrderSummary();
-            }
-        });
-        
-        // ========== Payment Method Selection ==========
-        paymentMethods.forEach(method => {
-            method.addEventListener('click', function() {
-                // Remove selected class from all
-                paymentMethods.forEach(m => m.classList.remove('selected'));
-                
-                // Add selected class to clicked
-                this.classList.add('selected');
-                
-                // Update payment method
-                const paymentType = this.querySelector('.payment-radio').value;
-                isCOD = (paymentType === 'cod');
-                
-                // Update charges
-                codCharge = isCOD ? 50 : 0;
-                shippingCharge = isCOD ? 50 : 0;
-                
-                // Update button text
-                checkoutBtn.innerHTML = isCOD 
-                    ? '<i class="fas fa-truck"></i> Place COD Order'
-                    : '<i class="fas fa-lock"></i> Proceed to Payment';
-                
-                // Update order summary
-                updateOrderSummary();
-            });
-        });
-        
-        // ========== Update Order Summary ==========
-        function updateOrderSummary() {
-            const productTotalAmount = productPrice * quantity;
-            const total = productTotalAmount + shippingCharge;
-            
-            // Update display
-            orderQuantity.textContent = quantity;
-            productTotal.textContent = productTotalAmount;
-            subtotal.textContent = productTotalAmount;
-            codChargeEl.textContent = codCharge;
-            
-            // Update shipping text
-            if (isCOD) {
-                shippingText.textContent = ' (COD Fee)';
-                shippingText.style.color = 'var(--secondary)';
-            } else {
-                shippingText.textContent = ' (Free)';
-                shippingText.style.color = '#2e8b57';
-            }
-            
-            grandTotal.textContent = total;
         }
-        
-        // ========== Form Validation ==========
-        function validateForm() {
-            let isValid = true;
-            
-            // Reset errors
-            errorMessages.forEach(error => error.style.display = 'none');
-            formInputs.forEach(input => input.classList.remove('error'));
-            
-            // Check Full Name
-            const fullName = document.getElementById('fullName').value.trim();
-            if (!fullName) {
-                document.getElementById('nameError').style.display = 'block';
-                document.getElementById('fullName').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check Mobile Number
-            const mobile = document.getElementById('mobileNumber').value.trim();
-            const mobileRegex = /^[6-9]\d{9}$/;
-            if (!mobileRegex.test(mobile)) {
-                document.getElementById('mobileError').style.display = 'block';
-                document.getElementById('mobileNumber').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check House Number
-            const houseNo = document.getElementById('houseNo').value.trim();
-            if (!houseNo) {
-                document.getElementById('houseError').style.display = 'block';
-                document.getElementById('houseNo').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check Street/Area
-            const streetArea = document.getElementById('streetArea').value.trim();
-            if (!streetArea) {
-                document.getElementById('streetError').style.display = 'block';
-                document.getElementById('streetArea').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check City
-            const city = document.getElementById('city').value.trim();
-            if (!city) {
-                document.getElementById('cityError').style.display = 'block';
-                document.getElementById('city').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check State
-            const state = document.getElementById('state').value.trim();
-            if (!state) {
-                document.getElementById('stateError').style.display = 'block';
-                document.getElementById('state').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check Pincode
-            const pincode = document.getElementById('pincode').value.trim();
-            const pincodeRegex = /^\d{6}$/;
-            if (!pincodeRegex.test(pincode)) {
-                document.getElementById('pincodeError').style.display = 'block';
-                document.getElementById('pincode').classList.add('error');
-                isValid = false;
-            }
-            
-            return isValid;
-        }
-        
-        // ========== Checkout Button Click ==========
-        checkoutBtn.addEventListener('click', function() {
-            // Validate form
-            if (!validateForm()) {
-                alert('Please fill all required fields correctly.');
-                return;
-            }
-            
-            if (isCOD) {
-                // Cash on Delivery
-                placeCODOrder();
-            } else {
-                // Online Payment
-                processOnlinePayment();
-            }
+    });
+
+    // ========== Payment Method Selection ==========
+    paymentMethods.forEach(method => {
+        method.addEventListener('click', function() {
+            paymentMethods.forEach(m => m.classList.remove('selected'));
+            this.classList.add('selected');
+
+            const paymentType = this.querySelector('.payment-radio').value;
+            isCOD = (paymentType === 'cod');
+
+            codCharge = isCOD ? 50 : 0;
+            shippingCharge = isCOD ? 50 : 0;
+
+            checkoutBtn.innerHTML = isCOD 
+                ? '<i class="fas fa-truck"></i> Place COD Order'
+                : '<i class="fas fa-lock"></i> Proceed to Payment';
+
+            updateOrderSummary();
         });
-        
-        // ========== Cash on Delivery Order ==========
-        function placeCODOrder() {
-            // Collect form data
-            const orderData = {
-                customerName: document.getElementById('fullName').value.trim(),
-                mobile: document.getElementById('mobileNumber').value.trim(),
-                houseNo: document.getElementById('houseNo').value.trim(),
-                streetArea: document.getElementById('streetArea').value.trim(),
-                landmark: document.getElementById('landmark').value.trim(),
-                city: document.getElementById('city').value.trim(),
-                state: document.getElementById('state').value.trim(),
-                pincode: document.getElementById('pincode').value.trim(),
-                paymentMethod: 'cod',
-                product: 'Violet Necklace Set',
-                quantity: quantity,
-                unitPrice: productPrice,
-                codCharge: codCharge,
-                totalAmount: parseInt(grandTotal.textContent),
-                orderDate: new Date().toISOString(),
-                orderId: 'EL-' + Date.now()
+    });
+
+    // ========== Update Order Summary ==========
+    function updateOrderSummary() {
+        const productTotalAmount = productPrice * quantity;
+        const total = productTotalAmount + shippingCharge;
+
+        orderQuantity.textContent = quantity;
+        productTotal.textContent = productTotalAmount;
+        subtotal.textContent = productTotalAmount;
+        codChargeEl.textContent = codCharge;
+
+        if (isCOD) {
+            shippingText.textContent = ' (COD Fee)';
+            shippingText.style.color = 'var(--secondary)';
+        } else {
+            shippingText.textContent = ' (Free)';
+            shippingText.style.color = '#2e8b57';
+        }
+
+        grandTotal.textContent = total;
+    }
+
+    // ========== Form Validation ==========
+    function validateForm() {
+        let isValid = true;
+
+        errorMessages.forEach(error => error.style.display = 'none');
+        formInputs.forEach(input => input.classList.remove('error'));
+
+        const fullName = document.getElementById('fullName').value.trim();
+        if (!fullName) {
+            document.getElementById('nameError').style.display = 'block';
+            document.getElementById('fullName').classList.add('error');
+            isValid = false;
+        }
+
+        const mobile = document.getElementById('mobileNumber').value.trim();
+        const mobileRegex = /^[6-9]\d{9}$/;
+        if (!mobileRegex.test(mobile)) {
+            document.getElementById('mobileError').style.display = 'block';
+            document.getElementById('mobileNumber').classList.add('error');
+            isValid = false;
+        }
+
+        const houseNo = document.getElementById('houseNo').value.trim();
+        if (!houseNo) {
+            document.getElementById('houseError').style.display = 'block';
+            document.getElementById('houseNo').classList.add('error');
+            isValid = false;
+        }
+
+        const streetArea = document.getElementById('streetArea').value.trim();
+        if (!streetArea) {
+            document.getElementById('streetError').style.display = 'block';
+            document.getElementById('streetArea').classList.add('error');
+            isValid = false;
+        }
+
+        const city = document.getElementById('city').value.trim();
+        if (!city) {
+            document.getElementById('cityError').style.display = 'block';
+            document.getElementById('city').classList.add('error');
+            isValid = false;
+        }
+
+        const state = document.getElementById('state').value.trim();
+        if (!state) {
+            document.getElementById('stateError').style.display = 'block';
+            document.getElementById('state').classList.add('error');
+            isValid = false;
+        }
+
+        const pincode = document.getElementById('pincode').value.trim();
+        const pincodeRegex = /^\d{6}$/;
+        if (!pincodeRegex.test(pincode)) {
+            document.getElementById('pincodeError').style.display = 'block';
+            document.getElementById('pincode').classList.add('error');
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // ========== Checkout Button Click ==========
+    checkoutBtn.addEventListener('click', function() {
+        if (!validateForm()) {
+            alert('Please fill all required fields correctly.');
+            return;
+        }
+
+        if (isCOD) {
+            placeCODOrder();
+        } else {
+            processOnlinePayment();
+        }
+    });
+
+    // ========== Cash on Delivery Order ==========
+    function placeCODOrder() {
+        const orderData = {
+            customerName: document.getElementById('fullName').value.trim(),
+            mobile: document.getElementById('mobileNumber').value.trim(),
+            houseNo: document.getElementById('houseNo').value.trim(),
+            streetArea: document.getElementById('streetArea').value.trim(),
+            landmark: document.getElementById('landmark').value.trim(),
+            city: document.getElementById('city').value.trim(),
+            state: document.getElementById('state').value.trim(),
+            pincode: document.getElementById('pincode').value.trim(),
+            paymentMethod: 'cod',
+            product: 'Violet Necklace Set',
+            quantity: quantity,
+            unitPrice: productPrice,
+            codCharge: codCharge,
+            totalAmount: parseInt(grandTotal.textContent),
+            orderDate: new Date().toISOString(),
+            orderId: 'EL-' + Date.now()
+        };
+
+        localStorage.setItem('lastOrder', JSON.stringify(orderData));
+
+        successMessage.style.display = 'block';
+        checkoutBtn.disabled = true;
+        checkoutBtn.innerHTML = '<i class="fas fa-check"></i> Order Placed Successfully!';
+        checkoutBtn.style.background = '#28a745';
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        setTimeout(() => {
+            alert(`COD Order Placed Successfully!\n\nOrder ID: ${orderData.orderId}\nTotal Amount: ₹${orderData.totalAmount}`);
+        }, 500);
+    }
+
+    // ========== Online Payment (Updated Razorpay + PHP Backend) ==========
+    async function processOnlinePayment() {
+        const amount = parseInt(grandTotal.textContent);
+
+        const orderResponse = await fetch("/backend/create-order.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount: amount })
+        });
+
+        const orderData = await orderResponse.json();
+
+        if (!orderData.success) {
+            alert("Order create failed: " + orderData.message);
+            return;
+        }
+
+        const options = {
+            key: "rzp_live_RpASpuQWPHN0ae",
+            amount: orderData.amount,
+            currency: "INR",
+            name: "Eastern Lumine",
+            description: "Violet Necklace Set",
+            order_id: orderData.order_id,
+
+            handler: function (response) {
+                handlePaymentSuccess(response, amount);
+            },
+
+            prefill: {
+                name: document.getElementById('fullName').value.trim(),
+                contact: document.getElementById('mobileNumber').value.trim(),
+                email: "customer@example.com"
+            },
+
+            theme: {
+                color: "#b8860b"
+            }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+
+        rzp.on("payment.failed", function (response) {
+            alert("Payment failed: " + response.error.description);
+        });
+    }
+
+    // ========== Handle Payment Success + Backend Verification ==========
+    async function handlePaymentSuccess(response, amount) {
+        const verifyResponse = await fetch("/backend/verify-payment.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(response)
+        });
+
+        const verifyData = await verifyResponse.json();
+
+        if (!verifyData.success) {
+            alert("Payment verification failed: " + verifyData.message);
+            return;
+        }
+
+        successMessage.style.display = "block";
+        successMessage.innerHTML =
+            '<i class="fas fa-check-circle"></i> Payment Successful!';
+
+        checkoutBtn.disabled = true;
+        checkoutBtn.innerHTML = '<i class="fas fa-check"></i> Payment Successful!';
+        checkoutBtn.style.background = "#28a745";
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+
+        setTimeout(() => {
+            alert(
+                `Payment Successful!\nPayment ID: ${response.razorpay_payment_id}\nAmount: ₹${amount}`
+            );
+        }, 500);
+    }
+
+    // ========== Autofill + Save Form Data ==========
+    document.getElementById('pincode').addEventListener('blur', function() {
+        const pincode = this.value.trim();
+        if (/^\d{6}$/.test(pincode)) {}
+    });
+
+    formInputs.forEach(input => {
+        input.addEventListener('input', function() {
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                mobile: document.getElementById('mobileNumber').value,
+                houseNo: document.getElementById('houseNo').value,
+                streetArea: document.getElementById('streetArea').value,
+                landmark: document.getElementById('landmark').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                pincode: document.getElementById('pincode').value
             };
-            
-            // In real app, send to server
-            // For demo, save to localStorage
-            localStorage.setItem('lastOrder', JSON.stringify(orderData));
-            
-            // Show success message
-            successMessage.style.display = 'block';
-            checkoutBtn.disabled = true;
-            checkoutBtn.innerHTML = '<i class="fas fa-check"></i> Order Placed Successfully!';
-            checkoutBtn.style.background = '#28a745';
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Show order details
-            setTimeout(() => {
-                alert(`COD Order Placed Successfully!\n\nOrder ID: ${orderData.orderId}\nTotal Amount: ₹${orderData.totalAmount}\n\nPay ₹${orderData.totalAmount} when your order is delivered.`);
-            }, 500);
-        }
-        
-        // ========== Online Payment (Razorpay) ==========
-        function processOnlinePayment() {
-            const amount = parseInt(grandTotal.textContent) * 100; // Convert to paise
-            
-            // YOUR RAZORPAY CREDENTIALS - REPLACE THESE
-            const razorpayKeyId = 'rzp_live_RpASpuQWPHN0ae'; // Replace with your live key
-            
-            // Order data for backend
-            const orderData = {
-                customerName: document.getElementById('fullName').value.trim(),
-                mobile: document.getElementById('mobileNumber').value.trim(),
-                address: {
-                    houseNo: document.getElementById('houseNo').value.trim(),
-                    streetArea: document.getElementById('streetArea').value.trim(),
-                    landmark: document.getElementById('landmark').value.trim(),
-                    city: document.getElementById('city').value.trim(),
-                    state: document.getElementById('state').value.trim(),
-                    pincode: document.getElementById('pincode').value.trim()
-                },
-                product: 'Violet Necklace Set',
-                quantity: quantity,
-                unitPrice: productPrice,
-                totalAmount: parseInt(grandTotal.textContent)
-            };
-            
-            // In production, create order on your server first
-            // For demo, we'll create directly
-            
-            const options = {
-                key: razorpayKeyId,
-                amount: amount,
-                currency: 'INR',
-                name: 'Eastern Lumine',
-                description: 'Violet Necklace Set',
-                image: 'https://your-logo-url.com/logo.png', // Add your logo
-                order_id: undefined, // Create order on your server first
-                
-                handler: function(response) {
-                    // Payment successful
-                    handlePaymentSuccess(response, orderData);
-                },
-                
-                prefill: {
-                    name: orderData.customerName,
-                    contact: orderData.mobile,
-                    email: 'customer@example.com' // You can add email field if needed
-                },
-                
-                notes: {
-                    address: orderData.address.streetArea + ', ' + orderData.address.city
-                },
-                
-                theme: {
-                    color: '#b8860b' // Match your brand color
-                }
-            };
-            
-            const rzp = new Razorpay(options);
-            rzp.open();
-            
-            // Error handling
-            rzp.on('payment.failed', function(response) {
-                alert('Payment failed. Please try again. Error: ' + response.error.description);
-            });
-        }
-        
-        // ========== Handle Payment Success ==========
-        function handlePaymentSuccess(response, orderData) {
-            // In production, verify payment on your server
-            // For demo, show success message
-            
-            const orderId = 'EL-' + Date.now();
-            
-            // Save order data
-            const completeOrder = {
-                ...orderData,
-                paymentId: response.razorpay_payment_id,
-                orderId: orderId,
-                paymentMethod: 'online',
-                paymentStatus: 'paid',
-                orderDate: new Date().toISOString()
-            };
-            
-            localStorage.setItem('lastOrder', JSON.stringify(completeOrder));
-            
-            // Show success message
-            successMessage.style.display = 'block';
-            successMessage.innerHTML = '<i class="fas fa-check-circle"></i> Payment Successful! Order #' + orderId + ' has been placed.';
-            checkoutBtn.disabled = true;
-            checkoutBtn.innerHTML = '<i class="fas fa-check"></i> Payment Successful!';
-            checkoutBtn.style.background = '#28a745';
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Show confirmation
-            setTimeout(() => {
-                alert(`Payment Successful!\n\nOrder ID: ${orderId}\nPayment ID: ${response.razorpay_payment_id}\nAmount: ₹${orderData.totalAmount}\n\nThank you for your order!`);
-                
-                // Redirect to thank you page (optional)
-                // window.location.href = 'thankyou.html?id=' + orderId;
-            }, 500);
-        }
-        
-        // ========== Auto-fill State/City from Pincode (Optional) ==========
-        document.getElementById('pincode').addEventListener('blur', function() {
-            const pincode = this.value.trim();
-            if (/^\d{6}$/.test(pincode)) {
-                // In production, call API to get city/state from pincode
-                // For demo, we'll simulate
-                
-                // You can use India Post API or other services
-                // fetch(`https://api.postalpincode.in/pincode/${pincode}`)
-                //   .then(response => response.json())
-                //   .then(data => {
-                //       if (data[0].Status === 'Success') {
-                //           document.getElementById('city').value = data[0].PostOffice[0].District;
-                //           document.getElementById('state').value = data[0].PostOffice[0].State;
-                //       }
-                //   });
-            }
+
+            localStorage.setItem('checkoutFormData', JSON.stringify(formData));
         });
-        
-        // ========== Save Form Data (Optional) ==========
-        formInputs.forEach(input => {
-            input.addEventListener('input', function() {
-                // Save to localStorage for user convenience
-                const formData = {
-                    fullName: document.getElementById('fullName').value,
-                    mobile: document.getElementById('mobileNumber').value,
-                    houseNo: document.getElementById('houseNo').value,
-                    streetArea: document.getElementById('streetArea').value,
-                    landmark: document.getElementById('landmark').value,
-                    city: document.getElementById('city').value,
-                    state: document.getElementById('state').value,
-                    pincode: document.getElementById('pincode').value
-                };
-                
-                localStorage.setItem('checkoutFormData', JSON.stringify(formData));
-            });
-        });
-        
-        // ========== Load Saved Form Data (Optional) ==========
-        window.addEventListener('load', function() {
-            const savedData = localStorage.getItem('checkoutFormData');
-            if (savedData) {
-                const formData = JSON.parse(savedData);
-                document.getElementById('fullName').value = formData.fullName || '';
-                document.getElementById('mobileNumber').value = formData.mobile || '';
-                document.getElementById('houseNo').value = formData.houseNo || '';
-                document.getElementById('streetArea').value = formData.streetArea || '';
-                document.getElementById('landmark').value = formData.landmark || '';
-                document.getElementById('city').value = formData.city || '';
-                document.getElementById('state').value = formData.state || '';
-                document.getElementById('pincode').value = formData.pincode || '';
-            }
-        });
-    </script>
+    });
+
+    window.addEventListener('load', function() {
+        const savedData = localStorage.getItem('checkoutFormData');
+        if (savedData) {
+            const formData = JSON.parse(savedData);
+            document.getElementById('fullName').value = formData.fullName || '';
+            document.getElementById('mobileNumber').value = formData.mobile || '';
+            document.getElementById('houseNo').value = formData.houseNo || '';
+            document.getElementById('streetArea').value = formData.streetArea || '';
+            document.getElementById('landmark').value = formData.landmark || '';
+            document.getElementById('city').value = formData.city || '';
+            document.getElementById('state').value = formData.state || '';
+            document.getElementById('pincode').value = formData.pincode || '';
+        }
+    });
+</script>
+
 </body>
 </html>
