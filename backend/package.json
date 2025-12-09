@@ -1,15 +1,9 @@
 {
-  "name": "razorpay-backend",
+  "name": "easternlumine-backend",
   "version": "1.0.0",
-  "main": "server.js",
   "type": "module",
-  "scripts": {
-    "start": "node server.js"
-  },
   "dependencies": {
-    "cors": "^2.8.5",
-    "dotenv": "^16.4.0",
-    "express": "^4.19.0",
-    "razorpay": "^2.9.3"
+    "razorpay": "^2.9.3",
+    "crypto": "^1.0.1"
   }
 }
