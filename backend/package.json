@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "type": "module",
   "dependencies": {
-    "razorpay": "^2.9.3",
-    "crypto": "^1.0.1"
+    "razorpay": "^2.9.3"
   }
 }
