@@ -888,6 +888,92 @@
             .circle-content p {
                 font-size: 0.9rem;
             }
+         
+         
+            /* Caution Banner Styles */
+.caution-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #ffcc00 0%, #ff9900 100%);
+  color: #8a2b00;
+  padding: 12px 20px;
+  box-shadow: 0 4px 12px rgba(255, 153, 0, 0.3);
+  z-index: 9999;
+  border-bottom: 3px solid #ff3300;
+}
+
+.caution-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.caution-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.caution-text {
+  flex-grow: 1;
+}
+
+.caution-text strong {
+  font-size: 18px;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.caution-text p {
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.caution-close {
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0 10px;
+  transition: all 0.3s ease;
+}
+
+.caution-close:hover {
+  color: #ff3300;
+  transform: scale(1.2);
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .caution-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+  
+  .caution-icon {
+    font-size: 24px;
+  }
+  
+  .caution-text strong {
+    font-size: 16px;
+  }
+  
+  .caution-text p {
+    font-size: 13px;
+  }
+  
+  .caution-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+  }
+
         }
     </style>
 </head>
@@ -944,7 +1030,19 @@
     </div>
     
     <div class="overlay" id="overlay"></div>
-    
+    <!-- Testing Mode Caution Banner -->
+<div class="caution-banner">
+  <div class="caution-content">
+    <div class="caution-icon">⚠️</div>
+    <div class="caution-text">
+      <strong>CAUTION: Website in Development Mode</strong>
+      <p>We are currently in testing phase. We are NOT accepting real orders or payments. 
+      If you make a payment, we <strong>will NOT</strong> be able to refund it. 
+      Please do NOT proceed with any payment.</p>
+    </div>
+    <div class="caution-close" onclick="this.parentElement.parentElement.style.display='none';">×</div>
+  </div>
+</div>
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
@@ -1094,7 +1192,7 @@
                     </div>
                     <div class="product-info">
                         <h4>Royal Gold Chain Necklace</h4>
-                        <div class="product-price">₹ 99 <del>₹ 399</del></div>
+                        <div class="product-price">₹ 1<del>₹ 99</del></div>
                         <div class="product-rating">
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star"></i>
@@ -1106,61 +1204,7 @@
                     </div>
                 </div>
                 
-                <!-- Product 2 -->
-                <div class="product-card" data-category="bracelet">
-                    <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1596944924616-b0e121b637d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Pearl Bracelet">
-                    </div>
-                    <div class="product-info">
-                        <h4>Pearl & Gold Bracelet</h4>
-                        <div class="product-price">₹ 249 <del>₹ 89</del></div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i> Out of Stock</a>
-                    </div>
-                </div>
-                
-                <!-- Product 3 -->
-                <div class="product-card" data-category="earring">
-                    <div class="product-badge">New</div>
-                    <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Gold Earrings">
-                    </div>
-                    <div class="product-info">
-                        <h4>Floral Gold Earrings</h4>
-                        <div class="product-price">₹ 299 <del>₹ 99</del></div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i> Add to Cart</a>
-                    </div>
-                </div>
-                
-                <!-- Product 4 -->
-                <div class="product-card" data-category="ring">
-                    <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1335&q=80" alt="Diamond Ring">
-                    </div>
-                    <div class="product-info">
-                        <h4>Solitaire Diamond Ring</h4>
-                        <div class="product-price">₹ 599 <del>₹ 399</del></div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i> Add to Cart</a>
+
                     </div>
                 </div>
             </div>
