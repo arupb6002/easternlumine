@@ -1,738 +1,175 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eastern Lumine | Checkout</title>
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Razorpay -->
-    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    
-    <style>
-        /* ========== CSS Variables ========== */
-        :root {
-            --primary: #b8860b; /* Gold */
-            --primary-light: #daa520;
-            --primary-dark: #8b6914;
-            --secondary: #8b0000; /* Deep red */
-            --dark: #1a1a1a;
-            --dark-light: #333333;
-            --light: #f9f5f0;
-            --white: #ffffff;
-            --gray: #888888;
-            --light-gray: #f0f0f0;
-            --border: #e0d6c9;
-            
-            --font-heading: 'Playfair Display', serif;
-            --font-body: 'Poppins', sans-serif;
-            
-            --shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-            --shadow-hover: 0 10px 25px rgba(0, 0, 0, 0.12);
-            --transition: all 0.3s ease;
-        }
-        
-        /* ========== Reset & Base Styles ========== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: var(--font-body);
-            color: var(--dark);
-            background-color: var(--white);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-heading);
-            font-weight: 600;
-            line-height: 1.3;
-            color: var(--dark);
-        }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: var(--transition);
-        }
-        
-        ul {
-            list-style: none;
-        }
-        
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        .btn {
-            display: inline-block;
-            background: var(--primary);
-            color: var(--white);
-            padding: 12px 28px;
-            border-radius: 4px;
-            font-weight: 500;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            border: none;
-            cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.9rem;
-            width: 100%;
-            text-align: center;
-        }
-        
-        .btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .btn-secondary {
-            background: var(--secondary);
-        }
-        
-        .btn-secondary:hover {
-            background: #6a0000;
-        }
-        
-        /* ========== Header ========== */
-        header {
-            background: var(--white);
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-            padding: 15px 0;
-        }
-        
-        .header-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 0 20px;
-        }
-        
-        .logo {
-            display: flex;
-            align-items: center;
-        }
-        
-        .logo-text {
-            font-family: var(--font-heading);
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-        
-        .logo-text span {
-            color: var(--primary);
-        }
-        
-        /* ========== Checkout Section ========== */
-        .checkout-section {
-            padding: 40px 0 80px;
-        }
-        
-        .checkout-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 50px;
-            align-items: start;
-        }
-        
-        .checkout-title {
-            font-size: 2rem;
-            margin-bottom: 30px;
-            text-align: center;
-            color: var(--dark);
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: 10px;
-        }
-        
-        /* ========== Form Section ========== */
-        .form-section {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-        
-        .form-input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-family: var(--font-body);
-            font-size: 1rem;
-            transition: var(--transition);
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 2px rgba(184, 134, 11, 0.1);
-        }
-        
-        .form-textarea {
-            min-height: 80px;
-            resize: vertical;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-        
-        /* ========== Payment Methods ========== */
-        .payment-section {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border);
-        }
-        
-        .payment-title {
-            font-size: 1.3rem;
-            margin-bottom: 20px;
-            color: var(--dark);
-        }
-        
-        .payment-methods {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .payment-method {
-            display: flex;
-            align-items: flex-start;
-            padding: 15px;
-            border: 2px solid var(--border);
-            border-radius: 6px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .payment-method:hover {
-            border-color: var(--primary-light);
-        }
-        
-        .payment-method.selected {
-            border-color: var(--primary);
-            background: rgba(184, 134, 11, 0.05);
-        }
-        
-        .payment-radio {
-            margin-right: 12px;
-            margin-top: 3px;
-        }
-        
-        .payment-details {
-            flex: 1;
-        }
-        
-        .payment-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-            color: var(--dark);
-        }
-        
-        .payment-desc {
-            font-size: 0.9rem;
-            color: var(--gray);
-        }
-        
-        .cod-charge {
-            color: var(--secondary);
-            font-weight: 500;
-            margin-top: 5px;
-        }
-        
-        /* ========== Order Summary ========== */
-        .order-summary {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 20px;
-        }
-        
-        .order-title {
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            color: var(--dark);
-            padding-bottom: 10px;
-            border-bottom: 2px solid var(--primary);
-        }
-        
-        .order-item {
-            display: flex;
-            gap: 15px;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .order-item-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 4px;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        
-        .order-item-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .order-item-details {
-            flex: 1;
-        }
-        
-        .order-item-name {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-            color: var(--dark);
-        }
-        
-        .order-item-meta {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 5px;
-        }
-        
-        .order-item-price {
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
-        /* ========== Price Breakdown ========== */
-        .price-breakdown {
-            margin: 25px 0;
-        }
-        
-        .price-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px dashed var(--border);
-        }
-        
-        .price-row:last-child {
-            border-bottom: none;
-        }
-        
-        .price-row.total {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--dark);
-            border-top: 2px solid var(--primary);
-            margin-top: 10px;
-            padding-top: 15px;
-        }
-        
-        .price-label {
-            color: var(--gray);
-        }
-        
-        .price-value {
-            font-weight: 500;
-        }
-        
-        .cod-fee {
-            color: var(--secondary);
-        }
-        
-        .free-shipping {
-            color: #2e8b57;
-        }
-        
-        /* ========== Checkout Button ========== */
-        .checkout-btn-container {
-            margin-top: 30px;
-        }
-        
-        .terms {
-            font-size: 0.85rem;
-            color: var(--gray);
-            text-align: center;
-            margin-top: 15px;
-        }
-        
-        .terms a {
-            color: var(--primary);
-            text-decoration: underline;
-        }
-        
-        /* ========== Responsive Styles ========== */
-        @media (max-width: 992px) {
-            .checkout-container {
-                grid-template-columns: 1fr;
-                gap: 40px;
-            }
-            
-            .order-summary {
-                position: static;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .checkout-title {
-                font-size: 1.6rem;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-            
-            .form-section, .order-summary {
-                padding: 20px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .checkout-title {
-                font-size: 1.4rem;
-            }
-            
-            .payment-method {
-                padding: 12px;
-            }
-            
-            .order-item {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .order-item-img {
-                margin: 0 auto;
-            }
-        }
-        
-        /* ========== Validation Styles ========== */
-        .error-message {
-            color: #dc3545;
-            font-size: 0.85rem;
-            margin-top: 5px;
-            display: none;
-        }
-        
-        .form-input.error {
-            border-color: #dc3545;
-        }
-        
-        .form-input.error:focus {
-            box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.1);
-        }
-        
-        .success-message {
-            background: #d4edda;
-            color: #155724;
-            padding: 15px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            display: none;
-        }
-    </style>
-</head>
-<body>
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <a href="index.html" class="logo">
-                <div class="logo-text">EASTERN<span>LUMINE</span></div>
-            </a>
-        </div>
-    </header>
-    
-    <!-- Checkout Section -->
-    <section class="checkout-section">
-        <div class="container">
-            <h1 class="checkout-title">Complete Your Order</h1>
-            
-            <div class="checkout-container">
-                <!-- Left Column - Form -->
-                <div class="form-section">
-                    <h2>Shipping Information</h2>
-                    
-                    <!-- Success Message (Hidden by default) -->
-                    <div class="success-message" id="successMessage">
-                        <i class="fas fa-check-circle"></i> Order placed successfully!
-                    </div>
-                    
-                    <!-- Personal Details -->
-                    <div class="form-group">
-                        <label class="form-label">Full Name *</label>
-                        <input type="text" class="form-input" id="fullName" placeholder="Enter your full name" required>
-                        <div class="error-message" id="nameError">Please enter your full name</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Mobile Number *</label>
-                        <input type="tel" class="form-input" id="mobileNumber" placeholder="Enter 10-digit mobile number" required>
-                        <div class="error-message" id="mobileError">Please enter a valid 10-digit mobile number</div>
-                    </div>
-                    
-                    <!-- Address Details -->
-                    <div class="form-group">
-                        <label class="form-label">House No./Flat No. *</label>
-                        <input type="text" class="form-input" id="houseNo" placeholder="Enter house/flat number" required>
-                        <div class="error-message" id="houseError">Please enter house/flat number</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Street/Area *</label>
-                        <textarea class="form-input form-textarea" id="streetArea" placeholder="Enter street name and area" required></textarea>
-                        <div class="error-message" id="streetError">Please enter street/area details</div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Landmark (Optional)</label>
-                        <input type="text" class="form-input" id="landmark" placeholder="Nearby landmark">
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">City *</label>
-                            <input type="text" class="form-input" id="city" placeholder="Enter city" required>
-                            <div class="error-message" id="cityError">Please enter city</div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">State *</label>
-                            <input type="text" class="form-input" id="state" placeholder="Enter state" required>
-                            <div class="error-message" id="stateError">Please enter state</div>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Pincode *</label>
-                        <input type="text" class="form-input" id="pincode" placeholder="Enter 6-digit pincode" required>
-                        <div class="error-message" id="pincodeError">Please enter a valid 6-digit pincode</div>
-                    </div>
-                    
-                    <!-- Payment Methods -->
-                    <div class="payment-section">
-                        <h3 class="payment-title">Payment Method</h3>
-                        
-                        <div class="payment-methods">
-                            <div class="payment-method selected" id="onlinePayment">
-                                <input type="radio" name="payment" class="payment-radio" value="online" checked>
-                                <div class="payment-details">
-                                    <div class="payment-name">Online Payment</div>
-                                    <div class="payment-desc">Pay using Credit/Debit Card, UPI, Net Banking</div>
-                                    <div class="free-shipping">₹0 extra charge</div>
-                                </div>
-                            </div>
-                            
-                            <div class="payment-method" id="codPayment">
-                                <input type="radio" name="payment" class="payment-radio" value="cod">
-                                <div class="payment-details">
-                                    <div class="payment-name">Cash on Delivery (COD)</div>
-                                    <div class="payment-desc">Pay cash when your order is delivered</div>
-                                    <div class="cod-charge">+₹50 extra charge</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Right Column - Order Summary -->
-                <div class="order-summary">
-                    <h2 class="order-title">Order Summary</h2>
-                    
-                    <!-- Product Item -->
-                    <div class="order-item">
-                        <div class="order-item-img">
-                            <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Violet Necklace Set">
-                        </div>
-                        <div class="order-item-details">
-                            <div class="order-item-name">Violet Necklace Set</div>
-                            <div class="order-item-meta">
-                                <div>Quantity: <span id="orderQuantity">1</span></div>
-                                <div>Price: ₹<span id="unitPrice">99</span> each</div>
-                            </div>
-                            <div class="order-item-price">₹<span id="productTotal">99</span></div>
-                        </div>
-                    </div>
-                    
-                    <!-- Price Breakdown -->
-                    <div class="price-breakdown">
-                        <div class="price-row">
-                            <span class="price-label">Product Total</span>
-                            <span class="price-value">₹<span id="subtotal">99</span></span>
-                        </div>
-                        
-                        <div class="price-row">
-                            <span class="price-label">Shipping Charges</span>
-                            <span class="price-value">
-                                <span id="shippingCharge">0</span>
-                                <span id="shippingText"> (Free)</span>
-                            </span>
-                        </div>
-                        
-                        <div class="price-row">
-                            <span class="price-label">COD Charges</span>
-                            <span class="price-value cod-fee">₹<span id="codCharge">0</span></span>
-                        </div>
-                        
-                        <div class="price-row total">
-                            <span class="price-label">Total Amount</span>
-                            <span class="price-value">₹<span id="grandTotal">99</span></span>
-                        </div>
-                    </div>
-                    
-                    <!-- Checkout Button -->
-                    <div class="checkout-btn-container">
-                        <button class="btn btn-secondary" id="checkoutBtn">
-                            <i class="fas fa-lock"></i> Proceed to Payment
-                        </button>
-                        <p class="terms">
-                            By completing your purchase, you agree to our 
-                            <a href="#">Terms & Conditions</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="copyright">
-                <p>&copy; 2023 Eastern Lumine. All rights reserved. | Design By Borah Digital Solutions</p>
-            </div>
-        </div>
-    </footer>
-    
-    <script>
-        // ========== Global Variables ==========
-        let productPrice = 99; // Price per item
-        let quantity = 1; // Default quantity
-        let shippingCharge = 0;
-        let codCharge = 0;
-        let isCOD = false;
-        
-        // ========== DOM Elements ==========
-        const paymentMethods = document.querySelectorAll('.payment-method');
-        const onlinePayment = document.getElementById('onlinePayment');
-        const codPayment = document.getElementById('codPayment');
-        const checkoutBtn = document.getElementById('checkoutBtn');
-        
-        // Order Summary Elements
-        const orderQuantity = document.getElementById('orderQuantity');
-        const productTotal = document.getElementById('productTotal');
-        const subtotal = document.getElementById('subtotal');
-        const shippingText = document.getElementById('shippingText');
-        const codChargeEl = document.getElementById('codCharge');
-        const grandTotal = document.getElementById('grandTotal');
-        
-        // Form Elements
-        const formInputs = document.querySelectorAll('.form-input');
-        const errorMessages = document.querySelectorAll('.error-message');
-        const successMessage = document.getElementById('successMessage');
-        
-        // ========== Initialize Page ==========
-        document.addEventListener('DOMContentLoaded', function() {
-            // Get quantity from URL or localStorage
-            const urlParams = new URLSearchParams(window.location.search);
-            const savedQuantity = localStorage.getItem('checkoutQuantity');
-            const productData = localStorage.getItem('productData');
-            
-            // First check URL parameter
-            if (urlParams.has('quantity')) {
-                quantity = parseInt(urlParams.get('quantity'));
-            } 
-            // Then check localStorage
-            else if (productData) {
-                const data = JSON.parse(productData);
-                quantity = data.quantity || 1;
-                productPrice = data.price || 99;
-            }
-            // Then check saved quantity
-            else if (savedQuantity) {
-                quantity = parseInt(savedQuantity);
-            }
-            
-            // Validate quantity
-            if (quantity < 1) quantity = 1;
-            if (quantity > 10) quantity = 10;
-            
-            // Update order summary
-            updateOrderSummary();
-        });
-        
-        // ========== Payment Method Selection ==========
-        paymentMethods.forEach(method => {
-            method.addEventListener('click', function() {
-                // Remove selected class from all
-                paymentMethods.forEach(m => m.classList.remove('selected'));
-                
-                // Add selected class to clicked
-                this.classList.add('selected');
-                
-                // Update payment method
-                const paymentType = this.querySelector('.payment-radio').value;
-                isCOD = (paymentType === 'cod');
-                
-                // Update charges
-                codCharge = isCOD ? 50 : 0;
-                shippingCharge = isCOD ? 50 : 0;
-                
-                // Update button text
-                checkoutBtn.innerHTML = isCOD 
-                    ? '<i class="fas fa-truck"></i> Place COD Order'
-                    : '<i class="fas fa-lock"></i> Proceed to Payment';
-                
-                // Update order summary
-                updateOrderSummary();
+<script>
+    // ========== EMAILJS INITIALIZATION ==========
+    (function() {
+        // Initialize EmailJS with your Public Key
+        emailjs.init('q_bFfCJ9ViwpTh3gM'); // Your Public Key
+    })();
+
+    // ========== EMAILJS CONFIGURATION ==========
+    const EMAILJS_CONFIG = {
+        SERVICE_ID: 'service_4jl3pgs',          // Your Service ID
+        ADMIN_TEMPLATE_ID: 'template_8asv08j',  // Admin Notification Template
+        CUSTOMER_TEMPLATE_ID: 'template_xxxxxx', // Optional: Customer Confirmation Template
+        ADMIN_EMAIL: 'arupborh1@gmail.com',     // Your email to receive orders
+        FROM_EMAIL: 'Eastern Lumine <easternlumine@gmail.com>'
+    };
+
+    // ========== GLOBAL VARIABLES ==========
+    let productPrice = 1; // Price per item
+    let productName = 'Violet Necklace Set'; // Product name
+    let quantity = 1; // Default quantity
+    let isCOD = false;
+    let codCharge = 0;
+    let shippingCharge = 0;
+
+    // ========== DOM ELEMENTS ==========
+    let paymentMethods, onlinePayment, codPayment, checkoutBtn;
+    let orderQuantity, productTotal, subtotal, shippingText, codChargeEl, grandTotal;
+    let formInputs, errorMessages, successMessage;
+
+    // ========== INITIALIZE PAGE ==========
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize DOM elements
+        initializeDOMElements();
+        
+        // Get product data from localStorage or URL
+        loadProductData();
+        
+        // Setup event listeners
+        setupEventListeners();
+        
+        // Update initial display
+        updateOrderSummary();
+    });
+
+    // ========== INITIALIZE DOM ELEMENTS ==========
+    function initializeDOMElements() {
+        // Payment elements
+        paymentMethods = document.querySelectorAll('.payment-method');
+        onlinePayment = document.getElementById('onlinePayment');
+        codPayment = document.getElementById('codPayment');
+        checkoutBtn = document.getElementById('checkoutBtn');
+        
+        // Order summary elements
+        orderQuantity = document.getElementById('orderQuantity');
+        productTotal = document.getElementById('productTotal');
+        subtotal = document.getElementById('subtotal');
+        shippingText = document.getElementById('shippingText');
+        codChargeEl = document.getElementById('codCharge');
+        grandTotal = document.getElementById('grandTotal');
+        
+        // Form elements
+        formInputs = document.querySelectorAll('.form-input');
+        errorMessages = document.querySelectorAll('.error-message');
+        successMessage = document.getElementById('successMessage');
+    }
+
+    // ========== LOAD PRODUCT DATA ==========
+    function loadProductData() {
+        // First try to get from localStorage
+        const productData = localStorage.getItem('productData');
+        if (productData) {
+            const data = JSON.parse(productData);
+            productPrice = data.price || 1;
+            productName = data.name || 'Product';
+            quantity = data.quantity || 1;
+        }
+        
+        // Then try URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.has('price')) {
+            productPrice = parseInt(urlParams.get('price'));
+        }
+        if (urlParams.has('name')) {
+            productName = decodeURIComponent(urlParams.get('name'));
+        }
+        if (urlParams.has('quantity')) {
+            quantity = parseInt(urlParams.get('quantity'));
+        }
+        
+        // Validate quantity
+        if (quantity < 1) quantity = 1;
+        if (quantity > 10) quantity = 10;
+        
+        // Update product name in order summary
+        const productNameElement = document.querySelector('.order-item-name');
+        if (productNameElement) {
+            productNameElement.textContent = productName;
+        }
+        
+        // Update unit price display
+        const unitPriceElement = document.getElementById('unitPrice');
+        if (unitPriceElement) {
+            unitPriceElement.textContent = productPrice;
+        }
+    }
+
+    // ========== SETUP EVENT LISTENERS ==========
+    function setupEventListeners() {
+        // Payment method selection
+        if (paymentMethods.length > 0) {
+            paymentMethods.forEach(method => {
+                method.addEventListener('click', handlePaymentMethodChange);
             });
+        }
+        
+        // Checkout button
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', handleCheckout);
+        }
+        
+        // Form input saving
+        formInputs.forEach(input => {
+            input.addEventListener('input', saveFormData);
         });
         
-        // ========== Update Order Summary ==========
-        function updateOrderSummary() {
-            const productTotalAmount = productPrice * quantity;
-            const total = productTotalAmount + shippingCharge;
-            
-            // Update display
-            orderQuantity.textContent = quantity;
-            productTotal.textContent = productTotalAmount;
-            subtotal.textContent = productTotalAmount;
-            codChargeEl.textContent = codCharge;
-            
-            // Update shipping text
+        // Pincode auto-fill
+        const pincodeInput = document.getElementById('pincode');
+        if (pincodeInput) {
+            pincodeInput.addEventListener('blur', autoFillCityState);
+        }
+    }
+
+    // ========== PAYMENT METHOD HANDLER ==========
+    function handlePaymentMethodChange() {
+        // Remove selected class from all
+        paymentMethods.forEach(m => m.classList.remove('selected'));
+        
+        // Add selected class to clicked
+        this.classList.add('selected');
+        
+        // Update payment method
+        const paymentType = this.querySelector('.payment-radio').value;
+        isCOD = (paymentType === 'cod');
+        
+        // Update charges
+        codCharge = isCOD ? 50 : 0;
+        shippingCharge = isCOD ? 50 : 0;
+        
+        // Update button text
+        if (checkoutBtn) {
+            checkoutBtn.innerHTML = isCOD 
+                ? '<i class="fas fa-truck"></i> Place COD Order'
+                : '<i class="fas fa-lock"></i> Proceed to Payment';
+        }
+        
+        // Update order summary
+        updateOrderSummary();
+    }
+
+    // ========== UPDATE ORDER SUMMARY ==========
+    function updateOrderSummary() {
+        const productTotalAmount = productPrice * quantity;
+        const total = productTotalAmount + shippingCharge;
+        
+        // Update display if elements exist
+        if (orderQuantity) orderQuantity.textContent = quantity;
+        if (productTotal) productTotal.textContent = productTotalAmount;
+        if (subtotal) subtotal.textContent = productTotalAmount;
+        if (codChargeEl) codChargeEl.textContent = codCharge;
+        
+        // Update shipping text
+        if (shippingText) {
             if (isCOD) {
                 shippingText.textContent = ' (COD Fee)';
                 shippingText.style.color = 'var(--secondary)';
@@ -740,288 +177,473 @@
                 shippingText.textContent = ' (Free)';
                 shippingText.style.color = '#2e8b57';
             }
-            
-            grandTotal.textContent = total;
         }
         
-        // ========== Form Validation ==========
-        function validateForm() {
-            let isValid = true;
-            
-            // Reset errors
-            errorMessages.forEach(error => error.style.display = 'none');
-            formInputs.forEach(input => input.classList.remove('error'));
-            
-            // Check Full Name
-            const fullName = document.getElementById('fullName').value.trim();
-            if (!fullName) {
-                document.getElementById('nameError').style.display = 'block';
-                document.getElementById('fullName').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check Mobile Number
-            const mobile = document.getElementById('mobileNumber').value.trim();
-            const mobileRegex = /^[6-9]\d{9}$/;
-            if (!mobileRegex.test(mobile)) {
-                document.getElementById('mobileError').style.display = 'block';
-                document.getElementById('mobileNumber').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check House Number
-            const houseNo = document.getElementById('houseNo').value.trim();
-            if (!houseNo) {
-                document.getElementById('houseError').style.display = 'block';
-                document.getElementById('houseNo').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check Street/Area
-            const streetArea = document.getElementById('streetArea').value.trim();
-            if (!streetArea) {
-                document.getElementById('streetError').style.display = 'block';
-                document.getElementById('streetArea').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check City
-            const city = document.getElementById('city').value.trim();
-            if (!city) {
-                document.getElementById('cityError').style.display = 'block';
-                document.getElementById('city').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check State
-            const state = document.getElementById('state').value.trim();
-            if (!state) {
-                document.getElementById('stateError').style.display = 'block';
-                document.getElementById('state').classList.add('error');
-                isValid = false;
-            }
-            
-            // Check Pincode
-            const pincode = document.getElementById('pincode').value.trim();
-            const pincodeRegex = /^\d{6}$/;
-            if (!pincodeRegex.test(pincode)) {
-                document.getElementById('pincodeError').style.display = 'block';
-                document.getElementById('pincode').classList.add('error');
-                isValid = false;
-            }
-            
-            return isValid;
+        if (grandTotal) grandTotal.textContent = total;
+    }
+
+    // ========== FORM VALIDATION ==========
+    function validateForm() {
+        let isValid = true;
+        
+        // Reset errors
+        errorMessages.forEach(error => error.style.display = 'none');
+        formInputs.forEach(input => input.classList.remove('error'));
+        
+        // Check Full Name
+        const fullName = document.getElementById('fullName')?.value.trim();
+        if (!fullName) {
+            showError('nameError', 'fullName', 'Please enter your full name');
+            isValid = false;
         }
         
-        // ========== Checkout Button Click ==========
-        checkoutBtn.addEventListener('click', function() {
-            // Validate form
-            if (!validateForm()) {
-                alert('Please fill all required fields correctly.');
-                return;
-            }
+        // Check Mobile Number
+        const mobile = document.getElementById('mobileNumber')?.value.trim();
+        const mobileRegex = /^[6-9]\d{9}$/;
+        if (!mobileRegex.test(mobile)) {
+            showError('mobileError', 'mobileNumber', 'Please enter a valid 10-digit mobile number');
+            isValid = false;
+        }
+        
+        // Check House Number
+        const houseNo = document.getElementById('houseNo')?.value.trim();
+        if (!houseNo) {
+            showError('houseError', 'houseNo', 'Please enter house/flat number');
+            isValid = false;
+        }
+        
+        // Check Street/Area
+        const streetArea = document.getElementById('streetArea')?.value.trim();
+        if (!streetArea) {
+            showError('streetError', 'streetArea', 'Please enter street/area details');
+            isValid = false;
+        }
+        
+        // Check City
+        const city = document.getElementById('city')?.value.trim();
+        if (!city) {
+            showError('cityError', 'city', 'Please enter city');
+            isValid = false;
+        }
+        
+        // Check State
+        const state = document.getElementById('state')?.value.trim();
+        if (!state) {
+            showError('stateError', 'state', 'Please enter state');
+            isValid = false;
+        }
+        
+        // Check Pincode
+        const pincode = document.getElementById('pincode')?.value.trim();
+        const pincodeRegex = /^\d{6}$/;
+        if (!pincodeRegex.test(pincode)) {
+            showError('pincodeError', 'pincode', 'Please enter a valid 6-digit pincode');
+            isValid = false;
+        }
+        
+        return isValid;
+    }
+    
+    function showError(errorId, inputId, message) {
+        const errorElement = document.getElementById(errorId);
+        const inputElement = document.getElementById(inputId);
+        
+        if (errorElement && inputElement) {
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+            inputElement.classList.add('error');
+        }
+    }
+
+    // ========== CHECKOUT HANDLER ==========
+    function handleCheckout() {
+        // Validate form
+        if (!validateForm()) {
+            alert('Please fill all required fields correctly.');
+            return;
+        }
+        
+        if (isCOD) {
+            // Cash on Delivery
+            placeCODOrder();
+        } else {
+            // Online Payment
+            processOnlinePayment();
+        }
+    }
+
+    // ========== CASH ON DELIVERY ORDER ==========
+    function placeCODOrder() {
+        // Collect form data
+        const orderData = collectOrderData('cod');
+        
+        // Send email to admin
+        sendOrderEmailToAdmin(orderData);
+        
+        // Save order locally
+        localStorage.setItem('lastOrder', JSON.stringify(orderData));
+        
+        // Show success
+        showOrderSuccess(orderData, 'cod');
+    }
+
+    // ========== ONLINE PAYMENT PROCESSING ==========
+    function processOnlinePayment() {
+        const amount = parseInt(grandTotal.textContent) * 100; // Convert to paise
+        
+        // Collect order data
+        const orderData = collectOrderData('online');
+        
+        // YOUR RAZORPAY KEY - REPLACE WITH YOUR LIVE KEY
+        const razorpayKeyId = 'rzp_live_RpASpuQWPHN0ae';
+        
+        const options = {
+            key: razorpayKeyId,
+            amount: amount,
+            currency: 'INR',
+            name: 'Eastern Lumine',
+            description: productName,
+            image: 'https://your-logo-url.com/logo.png',
             
-            if (isCOD) {
-                // Cash on Delivery
-                placeCODOrder();
+            handler: function(response) {
+                handlePaymentSuccess(response, orderData);
+            },
+            
+            prefill: {
+                name: orderData.customerName,
+                contact: orderData.mobile,
+                email: orderData.email || 'customer@example.com'
+            },
+            
+            notes: {
+                address: orderData.streetArea + ', ' + orderData.city,
+                product: productName
+            },
+            
+            theme: {
+                color: '#b8860b'
+            }
+        };
+        
+        const rzp = new Razorpay(options);
+        rzp.open();
+        
+        rzp.on('payment.failed', function(response) {
+            alert('Payment failed. Please try again. Error: ' + response.error.description);
+        });
+    }
+
+    // ========== COLLECT ORDER DATA ==========
+    function collectOrderData(paymentMethod) {
+        return {
+            orderId: 'EL-' + Date.now(),
+            customerName: document.getElementById('fullName').value.trim(),
+            mobile: document.getElementById('mobileNumber').value.trim(),
+            email: document.getElementById('customerEmail')?.value.trim() || '',
+            houseNo: document.getElementById('houseNo').value.trim(),
+            streetArea: document.getElementById('streetArea').value.trim(),
+            landmark: document.getElementById('landmark').value.trim(),
+            city: document.getElementById('city').value.trim(),
+            state: document.getElementById('state').value.trim(),
+            pincode: document.getElementById('pincode').value.trim(),
+            paymentMethod: paymentMethod,
+            product: productName,
+            quantity: quantity,
+            unitPrice: productPrice,
+            totalAmount: parseInt(grandTotal.textContent),
+            orderDate: new Date().toISOString()
+        };
+    }
+
+    // ========== SEND EMAIL TO ADMIN ==========
+    function sendOrderEmailToAdmin(orderData) {
+        // Prepare email parameters
+        const emailParams = {
+            admin_email: EMAILJS_CONFIG.ADMIN_EMAIL,
+            order_id: orderData.orderId,
+            order_date: new Date().toLocaleString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            }),
+            customer_name: orderData.customerName,
+            customer_mobile: orderData.mobile,
+            customer_email: orderData.email || 'Not provided',
+            
+            shipping_address: `
+                ${orderData.houseNo}, 
+                ${orderData.streetArea}
+                ${orderData.landmark ? ` (Landmark: ${orderData.landmark})` : ''}
+                ${orderData.city}, ${orderData.state}
+                Pincode: ${orderData.pincode}
+                India
+            `,
+            
+            product_name: orderData.product,
+            quantity: orderData.quantity,
+            unit_price: orderData.unitPrice,
+            product_total: orderData.unitPrice * orderData.quantity,
+            cod_charge: orderData.paymentMethod === 'cod' ? '50' : '',
+            grand_total: orderData.totalAmount,
+            payment_method: orderData.paymentMethod === 'cod' ? 'Cash on Delivery (COD)' : 'Online Payment',
+            payment_status: orderData.paymentMethod === 'cod' ? 'pending' : 'paid'
+        };
+        
+        console.log('📧 Sending email with data:', emailParams);
+        
+        // Send email using EmailJS
+        emailjs.send(
+            EMAILJS_CONFIG.SERVICE_ID,
+            EMAILJS_CONFIG.ADMIN_TEMPLATE_ID,
+            emailParams
+        )
+        .then(function(response) {
+            console.log('✅ Email sent successfully!', response.status, response.text);
+            
+            // Optional: Send customer confirmation
+            if (orderData.email) {
+                sendCustomerConfirmation(orderData);
+            }
+        })
+        .catch(function(error) {
+            console.error('❌ Email sending failed:', error);
+            // Don't show error to customer, just log it
+        });
+    }
+
+    // ========== HANDLE PAYMENT SUCCESS ==========
+    function handlePaymentSuccess(response, orderData) {
+        const completeOrder = {
+            ...orderData,
+            paymentId: response.razorpay_payment_id,
+            paymentStatus: 'paid'
+        };
+        
+        // Send email to admin
+        sendOrderEmailToAdmin(completeOrder);
+        
+        // Save order locally
+        localStorage.setItem('lastOrder', JSON.stringify(completeOrder));
+        
+        // Show success
+        showOrderSuccess(completeOrder, 'online', response.razorpay_payment_id);
+    }
+
+    // ========== SHOW ORDER SUCCESS ==========
+    function showOrderSuccess(orderData, paymentMethod, paymentId = '') {
+        // Update success message
+        if (successMessage) {
+            successMessage.style.display = 'block';
+            successMessage.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <div style="font-size: 50px; color: #28a745; margin-bottom: 15px;">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 style="color: #155724; margin-bottom: 15px;">
+                        ${paymentMethod === 'cod' ? 'COD Order Placed!' : 'Payment Successful!'}
+                    </h3>
+                    
+                    <div style="background: #d4edda; padding: 20px; border-radius: 10px; margin: 20px 0; text-align: left;">
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <i class="fas fa-receipt" style="color: #b8860b; margin-right: 10px;"></i>
+                            <strong>Order ID:</strong> ${orderData.orderId}
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <i class="fas fa-rupee-sign" style="color: #b8860b; margin-right: 10px;"></i>
+                            <strong>Total Amount:</strong> ₹${orderData.totalAmount}
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <i class="fas fa-credit-card" style="color: #b8860b; margin-right: 10px;"></i>
+                            <strong>Payment Method:</strong> 
+                            ${paymentMethod === 'cod' ? 'Cash on Delivery' : 'Online Payment'}
+                        </div>
+                        ${paymentId ? `
+                        <div style="display: flex; align-items: center;">
+                            <i class="fas fa-id-card" style="color: #b8860b; margin-right: 10px;"></i>
+                            <strong>Payment ID:</strong> ${paymentId}
+                        </div>
+                        ` : ''}
+                    </div>
+                    
+                    <p style="color: #666; font-size: 14px; margin-top: 15px;">
+                        <i class="fas fa-envelope"></i> Order notification sent to admin.
+                    </p>
+                    
+                    ${paymentMethod === 'cod' ? `
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #ffc107;">
+                        <i class="fas fa-info-circle" style="color: #856404; margin-right: 8px;"></i>
+                        <strong>Note:</strong> Collect ₹${orderData.totalAmount} when order is delivered.
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+        }
+        
+        // Disable checkout button
+        if (checkoutBtn) {
+            checkoutBtn.disabled = true;
+            checkoutBtn.innerHTML = paymentMethod === 'cod' 
+                ? '<i class="fas fa-check"></i> COD Order Placed'
+                : '<i class="fas fa-check"></i> Payment Successful';
+            checkoutBtn.style.background = '#28a745';
+        }
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // Show alert
+        setTimeout(() => {
+            if (paymentMethod === 'cod') {
+                alert(`✅ COD Order Placed Successfully!\n\n📦 Order ID: ${orderData.orderId}\n💰 Amount to Collect: ₹${orderData.totalAmount}\n👤 Customer: ${orderData.customerName}\n📱 Mobile: ${orderData.mobile}\n\n📧 Order notification sent to admin email.\n\nThank you for your order!`);
             } else {
-                // Online Payment
-                processOnlinePayment();
+                alert(`✅ Payment Successful!\n\n📦 Order ID: ${orderData.orderId}\n💰 Amount Paid: ₹${orderData.totalAmount}\n💳 Payment ID: ${paymentId}\n👤 Customer: ${orderData.customerName}\n📱 Mobile: ${orderData.mobile}\n\n📧 Order notification sent to admin.\n\nThank you for shopping with us!`);
             }
+        }, 500);
+        
+        // Clear form data after 5 seconds
+        setTimeout(() => {
+            localStorage.removeItem('checkoutFormData');
+            localStorage.removeItem('productData');
+        }, 5000);
+    }
+
+    // ========== SEND CUSTOMER CONFIRMATION (OPTIONAL) ==========
+    function sendCustomerConfirmation(orderData) {
+        // Only send if customer provided email
+        if (!orderData.email) return;
+        
+        const customerParams = {
+            to_email: orderData.email,
+            customer_name: orderData.customerName,
+            order_id: orderData.orderId,
+            order_date: new Date().toLocaleString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            }),
+            product_name: orderData.product,
+            quantity: orderData.quantity,
+            total_amount: orderData.totalAmount,
+            payment_method: orderData.paymentMethod === 'cod' ? 'Cash on Delivery' : 'Online Payment',
+            estimated_delivery: '6-7 business days',
+            support_email: 'easternlumine@gmail.com',
+            support_phone: '+91 6002148763'
+        };
+        
+        emailjs.send(
+            EMAILJS_CONFIG.SERVICE_ID,
+            EMAILJS_CONFIG.CUSTOMER_TEMPLATE_ID,
+            customerParams
+        )
+        .then(function(response) {
+            console.log('Customer confirmation sent!', response.status, response.text);
+        })
+        .catch(function(error) {
+            console.error('Customer email failed:', error);
         });
+    }
+
+    // ========== SAVE FORM DATA ==========
+    function saveFormData() {
+        const formData = {
+            fullName: document.getElementById('fullName')?.value || '',
+            mobile: document.getElementById('mobileNumber')?.value || '',
+            houseNo: document.getElementById('houseNo')?.value || '',
+            streetArea: document.getElementById('streetArea')?.value || '',
+            landmark: document.getElementById('landmark')?.value || '',
+            city: document.getElementById('city')?.value || '',
+            state: document.getElementById('state')?.value || '',
+            pincode: document.getElementById('pincode')?.value || ''
+        };
         
-        // ========== Cash on Delivery Order ==========
-        function placeCODOrder() {
-            // Collect form data
-            const orderData = {
-                customerName: document.getElementById('fullName').value.trim(),
-                mobile: document.getElementById('mobileNumber').value.trim(),
-                houseNo: document.getElementById('houseNo').value.trim(),
-                streetArea: document.getElementById('streetArea').value.trim(),
-                landmark: document.getElementById('landmark').value.trim(),
-                city: document.getElementById('city').value.trim(),
-                state: document.getElementById('state').value.trim(),
-                pincode: document.getElementById('pincode').value.trim(),
-                paymentMethod: 'cod',
-                product: 'Violet Necklace Set',
-                quantity: quantity,
-                unitPrice: productPrice,
-                codCharge: codCharge,
-                totalAmount: parseInt(grandTotal.textContent),
-                orderDate: new Date().toISOString(),
-                orderId: 'EL-' + Date.now()
-            };
+        localStorage.setItem('checkoutFormData', JSON.stringify(formData));
+    }
+
+    // ========== LOAD SAVED FORM DATA ==========
+    function loadSavedFormData() {
+        const savedData = localStorage.getItem('checkoutFormData');
+        if (savedData) {
+            const formData = JSON.parse(savedData);
             
-            // In real app, send to server
-            // For demo, save to localStorage
-            localStorage.setItem('lastOrder', JSON.stringify(orderData));
-            
-            // Show success message
-            successMessage.style.display = 'block';
-            checkoutBtn.disabled = true;
-            checkoutBtn.innerHTML = '<i class="fas fa-check"></i> Order Placed Successfully!';
-            checkoutBtn.style.background = '#28a745';
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Show order details
-            setTimeout(() => {
-                alert(`COD Order Placed Successfully!\n\nOrder ID: ${orderData.orderId}\nTotal Amount: ₹${orderData.totalAmount}\n\nPay ₹${orderData.totalAmount} when your order is delivered.`);
-            }, 500);
-        }
-        
-        // ========== Online Payment (Razorpay) ==========
-        function processOnlinePayment() {
-            const amount = parseInt(grandTotal.textContent) * 100; // Convert to paise
-            
-            // YOUR RAZORPAY CREDENTIALS - REPLACE THESE
-            const razorpayKeyId = 'rzp_live_RpASpuQWPHN0ae'; // Replace with your live key
-            
-            // Order data for backend
-            const orderData = {
-                customerName: document.getElementById('fullName').value.trim(),
-                mobile: document.getElementById('mobileNumber').value.trim(),
-                address: {
-                    houseNo: document.getElementById('houseNo').value.trim(),
-                    streetArea: document.getElementById('streetArea').value.trim(),
-                    landmark: document.getElementById('landmark').value.trim(),
-                    city: document.getElementById('city').value.trim(),
-                    state: document.getElementById('state').value.trim(),
-                    pincode: document.getElementById('pincode').value.trim()
-                },
-                product: 'Violet Necklace Set',
-                quantity: quantity,
-                unitPrice: productPrice,
-                totalAmount: parseInt(grandTotal.textContent)
-            };
-            
-            const options = {
-                key: razorpayKeyId,
-                amount: amount,
-                currency: 'INR',
-                name: 'Eastern Lumine',
-                description: 'Violet Necklace Set',
-                image: 'https://your-logo-url.com/logo.png', // Add your logo
-                order_id: null, // Create order on your server first
-                
-                handler: function(response) {
-                    // Payment successful
-                    handlePaymentSuccess(response, orderData);
-                },
-                
-                prefill: {
-                    name: orderData.customerName,
-                    contact: orderData.mobile,
-                    email: 'customer@example.com' // You can add email field if needed
-                },
-                
-                notes: {
-                    address: orderData.address.streetArea + ', ' + orderData.address.city
-                },
-                
-                theme: {
-                    color: '#b8860b' // Match your brand color
+            Object.keys(formData).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.value = formData[key];
                 }
-            };
-            
-            const rzp = new Razorpay(options);
-            rzp.open();
-            
-            // Error handling
-            rzp.on('payment.failed', function(response) {
-                alert('Payment failed. Please try again. Error: ' + response.error.description);
             });
         }
-        
-        // ========== Handle Payment Success ==========
-        function handlePaymentSuccess(response, orderData) {
-            // In production, verify payment on your server
-            // For demo, show success message
-            
-            const orderId = 'EL-' + Date.now();
-            
-            // Save order data
-            const completeOrder = {
-                ...orderData,
-                paymentId: response.razorpay_payment_id,
-                orderId: orderId,
-                paymentMethod: 'online',
-                paymentStatus: 'paid',
-                orderDate: new Date().toISOString()
-            };
-            
-            localStorage.setItem('lastOrder', JSON.stringify(completeOrder));
-            
-            // Show success message
-            successMessage.style.display = 'block';
-            successMessage.innerHTML = '<i class="fas fa-check-circle"></i> Payment Successful! Order #' + orderId + ' has been placed.';
-            checkoutBtn.disabled = true;
-            checkoutBtn.innerHTML = '<i class="fas fa-check"></i> Payment Successful!';
-            checkoutBtn.style.background = '#28a745';
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            // Show confirmation
-            setTimeout(() => {
-                alert(`Payment Successful!\n\nOrder ID: ${orderId}\nPayment ID: ${response.razorpay_payment_id}\nAmount: ₹${orderData.totalAmount}\n\nThank you for your order!`);
-            }, 500);
+    }
+
+    // ========== AUTO-FILL CITY/STATE FROM PINCODE ==========
+    function autoFillCityState() {
+        const pincode = this.value.trim();
+        if (/^\d{6}$/.test(pincode)) {
+            // You can use India Post API here if needed
+            // For now, we'll leave it empty
+            console.log('Valid pincode:', pincode);
+            // fetch(`https://api.postalpincode.in/pincode/${pincode}`)
+            //   .then(response => response.json())
+            //   .then(data => {
+            //       if (data[0].Status === 'Success') {
+            //           document.getElementById('city').value = data[0].PostOffice[0].District;
+            //           document.getElementById('state').value = data[0].PostOffice[0].State;
+            //       }
+            //   });
         }
+    }
+
+    // ========== LOAD SAVED DATA ON PAGE LOAD ==========
+    window.addEventListener('load', function() {
+        loadSavedFormData();
+    });
+
+    // ========== TEST EMAIL FUNCTION (FOR DEBUGGING) ==========
+    function testEmail() {
+        const testData = {
+            admin_email: 'arupborh1@gmail.com',
+            order_id: 'EL-TEST-' + Date.now(),
+            order_date: new Date().toLocaleString('en-IN', {
+                timeZone: 'Asia/Kolkata',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            }),
+            customer_name: 'Test Customer',
+            customer_mobile: '9876543210',
+            customer_email: 'test@example.com',
+            shipping_address: '123 Test Street, Test Area, Test City, Test State - 123456',
+            product_name: 'Test Product',
+            quantity: 2,
+            unit_price: 1,
+            product_total: 2,
+            cod_charge: '50',
+            grand_total: 52,
+            payment_method: 'Cash on Delivery (COD)',
+            payment_status: 'pending'
+        };
         
-        // ========== Auto-fill State/City from Pincode (Optional) ==========
-        document.getElementById('pincode').addEventListener('blur', function() {
-            const pincode = this.value.trim();
-            if (/^\d{6}$/.test(pincode)) {
-                // In production, call API to get city/state from pincode
-                // For demo, we'll simulate
-                
-                // You can use India Post API or other services
-                // fetch(`https://api.postalpincode.in/pincode/${pincode}`)
-                //   .then(response => response.json())
-                //   .then(data => {
-                //       if (data[0].Status === 'Success') {
-                //           document.getElementById('city').value = data[0].PostOffice[0].District;
-                //           document.getElementById('state').value = data[0].PostOffice[0].State;
-                //       }
-                //   });
-            }
-        });
+        console.log('Sending test email...', testData);
         
-        // ========== Save Form Data (Optional) ==========
-        formInputs.forEach(input => {
-            input.addEventListener('input', function() {
-                // Save to localStorage for user convenience
-                const formData = {
-                    fullName: document.getElementById('fullName').value,
-                    mobile: document.getElementById('mobileNumber').value,
-                    houseNo: document.getElementById('houseNo').value,
-                    streetArea: document.getElementById('streetArea').value,
-                    landmark: document.getElementById('landmark').value,
-                    city: document.getElementById('city').value,
-                    state: document.getElementById('state').value,
-                    pincode: document.getElementById('pincode').value
-                };
-                
-                localStorage.setItem('checkoutFormData', JSON.stringify(formData));
-            });
+        emailjs.send(
+            EMAILJS_CONFIG.SERVICE_ID,
+            EMAILJS_CONFIG.ADMIN_TEMPLATE_ID,
+            testData
+        )
+        .then(function(response) {
+            console.log('✅ Test email sent successfully!', response);
+            alert('Test email sent to ' + EMAILJS_CONFIG.ADMIN_EMAIL);
+        })
+        .catch(function(error) {
+            console.error('❌ Test email failed:', error);
+            alert('Test email failed: ' + error.text);
         });
-        
-        // ========== Load Saved Form Data (Optional) ==========
-        window.addEventListener('load', function() {
-            const savedData = localStorage.getItem('checkoutFormData');
-            if (savedData) {
-                const formData = JSON.parse(savedData);
-                document.getElementById('fullName').value = formData.fullName || '';
-                document.getElementById('mobileNumber').value = formData.mobile || '';
-                document.getElementById('houseNo').value = formData.houseNo || '';
-                document.getElementById('streetArea').value = formData.streetArea || '';
-                document.getElementById('landmark').value = formData.landmark || '';
-                document.getElementById('city').value = formData.city || '';
-                document.getElementById('state').value = formData.state || '';
-                document.getElementById('pincode').value = formData.pincode || '';
-            }
-        });
-    </script>
-</body>
-</html>
+    }
+</script>
