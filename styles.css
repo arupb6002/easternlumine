@@ -242,7 +242,7 @@
         /* ========== Hero Section ========== */
         .hero {
             padding-top: 150px;
-            background:#ffdcf7;
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80');
             background-size: cover;
             background-position: center;
             color: var(--white);
@@ -259,7 +259,7 @@
         
         .hero h1 {
             font-size: 3.5rem;
-            color: #460000;
+            color: var(--white);
             margin-bottom: 20px;
             line-height: 1.2;
         }
@@ -268,7 +268,6 @@
             font-size: 1.2rem;
             margin-bottom: 30px;
             opacity: 0.9;
-            color: #460000;
         }
         
         .hero-btns {
@@ -276,22 +275,19 @@
             justify-content: center;
             gap: 15px;
             margin-top: 30px;
-            color: #460000;
-            
         }
         
         .hero-btns .btn {
-           background: #3c0000 ;
-            border: 2px solid #ffffff ;
+            background: transparent;
+            border: 2px solid var(--primary);
         }
         
         .hero-btns .btn:hover {
-            background: #ffffff;
-            color: #000000;
+            background: var(--primary);
         }
         
         .hero-btns .btn-outline {
-            background-color:#3c0000;
+            background: transparent;
             border: 2px solid var(--white);
         }
         
@@ -891,396 +887,4 @@
     <section class="categories" id="categories">
         <div class="container">
             <div class="section-title">
-                <h2>Our Collections</h2>
-                <p>Explore our exclusive jewellery categories, each crafted with precision and passion.</p>
-            </div>
-            
-            <div class="category-grid">
-                <div class="category-card">
-                    <div class="category-img">
-                        <img src="https://i.ibb.co/WN25nbC6/heart-shape-silver-necklace-for-girls.jpg" alt="Necklaces">
-                    </div>
-                    <div class="category-content">
-                        <h3>Necklaces</h3>
-                        <p>Elegant necklaces that complement your style and grace.</p>
-                        <a href="#" class="btn">View Collection</a>
-                    </div>
-                </div>
-                
-                <div class="category-card">
-                    <div class="category-img">
-                        <img src="https://i.ibb.co/PztwzSBs/pexels-photo-10030285.jpg" alt="Bracelets">
-                    </div>
-                    <div class="category-content">
-                        <h3>Bracelets</h3>
-                        <p>Charming bracelets that add elegance to your wrist.</p>
-                        <a href="#" class="btn">View Collection</a>
-                    </div>
-                </div>
-                
-                <div class="category-card">
-                    <div class="category-img">
-                        <img src="https://i.ibb.co/d0XSvSMk/20220920-070643090-i-OS-1800x1800.jpg"  alt="Earrings">
-                    </div>
-                    <div class="category-content">
-                        <h3>Earrings</h3>
-                        <p>Stunning earrings that frame your face beautifully.</p>
-                        <a href="#" class="btn">View Collection</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Featured Products -->
-    <section class="products" id="products">
-        <div class="container">
-            <div class="section-title">
-                <h2>Featured Products</h2>
-                <p>Handpicked selection of our finest jewellery pieces.</p>
-            </div>
-            
-            <div class="product-filters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="necklace">Necklaces</button>
-                <button class="filter-btn" data-filter="bracelet">Bracelets</button>
-                <button class="filter-btn" data-filter="earring">Earrings</button>
-                <button class="filter-btn" data-filter="ring">Rings</button>
-            </div>
-            
-            <div class="product-grid">
-                <!-- Product 1 -->
-                <div class="product-card" data-category="necklace">
-                    <div class="product-badge">Best Seller</div>
-                    <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Gold Necklace">
-                    </div>
-                    <div class="product-info">
-                        <h4>Royal Gold Chain Necklace</h4>
-                        <div class="product-price">₹ 99 <del>₹ 399</del></div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i> Out Of Stock</a>
-                    </div>
-                </div>
-                
-                <!-- Product 2 -->
-                <div class="product-card" data-category="bracelet">
-                    <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1596944924616-b0e121b637d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Pearl Bracelet">
-                    </div>
-                    <div class="product-info">
-                        <h4>Pearl & Gold Bracelet</h4>
-                        <div class="product-price">₹ 249 <del>₹ 89</del></div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="far fa-star"></i>
-                        </div>
-                        <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i> Out of Stock</a>
-                    </div>
-                </div>
-                
-                <!-- Product 3 -->
-                <div class="product-card" data-category="earring">
-                    <div class="product-badge">New</div>
-                    <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Gold Earrings">
-                    </div>
-                    <div class="product-info">
-                        <h4>Floral Gold Earrings</h4>
-                        <div class="product-price">₹ 299 <del>₹ 99</del></div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i> Add to Cart</a>
-                    </div>
-                </div>
-                
-                <!-- Product 4 -->
-                <div class="product-card" data-category="ring">
-                    <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1602173574767-37ac01994b2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1335&q=80" alt="Diamond Ring">
-                    </div>
-                    <div class="product-info">
-                        <h4>Solitaire Diamond Ring</h4>
-                        <div class="product-price">₹ 599 <del>₹ 399</del></div>
-                        <div class="product-rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i> Add to Cart</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- About Section -->
-    <section class="about" id="about">
-        <div class="container">
-            <div class="section-title">
-                <h2>About Eastern Lumine</h2>
-                <p>Crafting timeless pieces with passion and precision since 2025.</p>
-            </div>
-            
-            <div class="about-container">
-                <div class="about-img">
-                    <img src="https://i.ibb.co/cXJ7xNdS/Picsart-25-12-01-10-27-04-106.png"  alt="About Eastern Lumine">
-                </div>
-                
-                <div class="about-content">
-                    <h2>Exquisite Craftsmanship Since 2025</h2>
-                    <p>Eastern Lumine is a celebration of refined craftsmanship and radiant designs. We create jewellery that elevates your style with effortless sophistication.</p>
-                    <p>Our pieces are meticulously handcrafted by skilled artisans who bring decades of tradition and expertise to every creation.</p>
-                    
-                    <div class="features">
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-shipping-fast"></i>
-                            </div>
-                            <div>
-                                <h4>Free Shipping</h4>
-                                <p>Free shipping on orders above ₹499</p>
-                            </div>
-                        </div>
-                        
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-money-bill-wave"></i>
-                            </div>
-                            <div>
-                                <h4>Cash On Delivery</h4>
-                                <p>COD available on orders above ₹299</p>
-                            </div>
-                        </div>
-                        
-                        <div class="feature-item">
-                            <div class="feature-icon">
-                                <i class="fas fa-clock"></i>
-                            </div>
-                            <div>
-                                <h4>Quick Delivery</h4>
-                                <p>Orders delivered within 6-7 business days</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <a href="#" class="btn" style="margin-top: 20px;">Learn More About Us</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Instagram Section -->
-    <section class="instagram">
-        <div class="container">
-            <div class="section-title">
-                <h2>Follow Us On Instagram</h2>
-                <p>Share your moments with #EasternLumine and get featured on our page</p>
-            </div>
-            
-            <div class="instagram-grid">
-                <div class="instagram-item">
-                    <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Instagram Post">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </div>
-                
-                <div class="instagram-item">
-                    <img src="https://images.unsplash.com/photo-1599643478518-17488fbbcd75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Instagram Post">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </div>
-                
-                <div class="instagram-item">
-                    <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Instagram Post">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </div>
-                
-                <div class="instagram-item">
-                    <img src="https://images.unsplash.com/photo-1596944924616-b0e121b637d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Instagram Post">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </div>
-                
-                <div class="instagram-item">
-                    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Instagram Post">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="https://instagram.com/easternlumine" class="btn" target="_blank">
-                    <i class="fab fa-instagram"></i> Follow @easternlumine
-                </a>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Footer -->
-    <footer id="footer">
-        <div class="container">
-            <div class="footer-container">
-                <div class="footer-col">
-                    <h3>Eastern Lumine</h3>
-                    <p>Exquisite handcrafted jewellery that celebrates elegance and tradition. Crafting beautiful moments since 2025.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-pinterest-p"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <div class="footer-col">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#categories">Collections</a></li>
-                        <li><a href="#products">Shop</a></li>
-                        <li><a href="#about">About Us</a></li>
-                        <li><a href="#footer">Contact</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h3>Customer Service</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Shipping Policy</a></li>
-                        <li><a href="#">Return & Exchange</a></li>
-                        <li><a href="#">Size Guide</a></li>
-                        <li><a href="#">FAQs</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-col">
-                    <h3>Contact Us</h3>
-                    <ul class="footer-contact">
-                        <li>
-                            <i class="fas fa-map-marker-alt"></i>
-                            <div>Konwarpur Sivasagar,<br>Assam, India 785667</div>
-                        </li>
-                        <li>
-                            <i class="fas fa-phone"></i>
-                            <div>+91 6002148763</div>
-                        </li>
-                        <li>
-                            <i class="fas fa-envelope"></i>
-                            <div>easternlumine@gmail.com</div>
-                        </li>
-                        <li>
-                            <i class="fas fa-clock"></i>
-                            <div>Mon-Sat: 10AM - 6PM</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="copyright">
-                <p>&copy; 2023 Eastern Lumine. All rights reserved. | Design By Borah Digital Solutions</p>
-            </div>
-        </div>
-    </footer>
-    
-    <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-        const closeMenuBtn = document.getElementById('closeMenu');
-        const mobileNav = document.getElementById('mobileNav');
-        const overlay = document.getElementById('overlay');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileNav.classList.add('active');
-            overlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-        
-        closeMenuBtn.addEventListener('click', () => {
-            mobileNav.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-        
-        overlay.addEventListener('click', () => {
-            mobileNav.classList.remove('active');
-            overlay.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-        
-        // Product Filtering
-        const filterBtns = document.querySelectorAll('.filter-btn');
-        const productCards = document.querySelectorAll('.product-card');
-        
-        filterBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                filterBtns.forEach(btn => btn.classList.remove('active'));
-                // Add active class to clicked button
-                btn.classList.add('active');
-                
-                const filterValue = btn.getAttribute('data-filter');
-                
-                productCards.forEach(card => {
-                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            });
-        });
-        
-        // Header scroll effect
-        window.addEventListener('scroll', () => {
-            const header = document.getElementById('header');
-            if (window.scrollY > 100) {
-                header.style.boxShadow = '0 5px 15px rgba(0, 0, 0, 0.1)';
-            } else {
-                header.style.boxShadow = '0 2px 15px rgba(0, 0, 0, 0.08)';
-            }
-        });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if(targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if(targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                <
