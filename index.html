@@ -300,59 +300,145 @@
             color: var(--dark);
         }
         
-        /* ========== Categories Section ========== */
-        .categories {
-            background: var(--white);
+        /* ========== Circular Category Slider ========== */
+        .category-slider {
+            display: none;
         }
-        
-        .category-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-        
-        .category-card {
-            background: var(--white);
-            border-radius: 8px;
+
+        .slider-container {
+            position: relative;
+            max-width: 100%;
+            margin: 0 auto;
             overflow: hidden;
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slider-slide {
+            min-width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .category-circle {
+            text-align: center;
+            max-width: 320px;
+            width: 100%;
+        }
+
+        .circle-img {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 25px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--primary-light);
             box-shadow: var(--shadow);
             transition: var(--transition);
-            text-align: center;
         }
-        
-        .category-card:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-hover);
+
+        .circle-img:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
         }
-        
-        .category-img {
-            height: 250px;
-            overflow: hidden;
-        }
-        
-        .category-img img {
+
+        .circle-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: var(--transition);
         }
-        
-        .category-card:hover .category-img img {
-            transform: scale(1.05);
-        }
-        
-        .category-content {
-            padding: 25px;
-        }
-        
-        .category-content h3 {
+
+        .circle-content h3 {
             font-size: 1.5rem;
             margin-bottom: 10px;
+            color: var(--dark);
         }
-        
-        .category-content p {
+
+        .circle-content p {
             color: var(--gray);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .circle-content .btn {
+            background: var(--primary);
+            color: var(--white);
+            padding: 10px 25px;
+            font-size: 0.9rem;
+        }
+
+        .circle-content .btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Slider Dots */
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 25px;
+            gap: 10px;
+        }
+
+        .slider-dots .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .slider-dots .dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        /* Slider Arrows */
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--white);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--dark);
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            z-index: 10;
+            transition: var(--transition);
+        }
+
+        .slider-arrow:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .slider-arrow.prev-arrow {
+            left: 10px;
+        }
+
+        .slider-arrow.next-arrow {
+            right: 10px;
+        }
+
+        /* Show/Hide based on screen size */
+        .desktop-view {
+            display: block;
+        }
+
+        .mobile-view {
+            display: none;
         }
         
         /* ========== Featured Products ========== */
@@ -539,58 +625,7 @@
             flex-shrink: 0;
         }
         
-        /* ========== Instagram Section ========== */
-        .instagram {
-            background: var(--light);
-            text-align: center;
-        }
-        
-        .instagram-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 40px;
-        }
-        
-        .instagram-item {
-            overflow: hidden;
-            border-radius: 8px;
-            position: relative;
-        }
-        
-        .instagram-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: var(--transition);
-        }
-        
-        .instagram-item:hover img {
-            transform: scale(1.05);
-        }
-        
-        .instagram-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(184, 134, 11, 0.8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: var(--transition);
-        }
-        
-        .instagram-item:hover .instagram-overlay {
-            opacity: 1;
-        }
-        
-        .instagram-overlay i {
-            color: var(--white);
-            font-size: 1.5rem;
-        }
+
         
         /* ========== Footer ========== */
         footer {
@@ -806,15 +841,52 @@
             .footer-container {
                 grid-template-columns: 1fr;
             }
+            
+            /* Show mobile slider, hide desktop grid */
+            .desktop-view {
+                display: none;
+            }
+            
+            .mobile-view {
+                display: block;
+            }
+            
+            .category-slider {
+                display: block;
+            }
+            
+            .circle-img {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .slider-arrow {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
         }
         
         @media (max-width: 576px) {
-            .category-grid, .product-grid {
+            .product-grid {
                 grid-template-columns: 1fr;
             }
             
             .hero h1 {
                 font-size: 1.8rem;
+            }
+            
+            .circle-img {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .circle-content h3 {
+                font-size: 1.3rem;
+            }
+            
+            .circle-content p {
+                font-size: 0.9rem;
             }
         }
     </style>
@@ -895,7 +967,8 @@
                 <p>Explore our exclusive jewellery categories, each crafted with precision and passion.</p>
             </div>
             
-            <div class="category-grid">
+            <!-- Desktop View - Grid Layout -->
+            <div class="category-grid desktop-view">
                 <div class="category-card">
                     <div class="category-img">
                         <img src="https://i.ibb.co/WN25nbC6/heart-shape-silver-necklace-for-girls.jpg" alt="Necklaces">
@@ -903,7 +976,7 @@
                     <div class="category-content">
                         <h3>Necklaces</h3>
                         <p>Elegant necklaces that complement your style and grace.</p>
-                        <a href="#" class="btn">View Collection</a>
+                        <a href="/Necklace/necklaces.html" class="btn">View Collection</a>
                     </div>
                 </div>
                 
@@ -920,13 +993,77 @@
                 
                 <div class="category-card">
                     <div class="category-img">
-                        <img src="https://i.ibb.co/d0XSvSMk/20220920-070643090-i-OS-1800x1800.jpg"  alt="Earrings">
+                        <img src="https://i.ibb.co/d0XSvSMk/20220920-070643090-i-OS-1800x1800.jpg" alt="Earrings">
                     </div>
                     <div class="category-content">
                         <h3>Earrings</h3>
                         <p>Stunning earrings that frame your face beautifully.</p>
                         <a href="#" class="btn">View Collection</a>
                     </div>
+                </div>
+            </div>
+            
+            <!-- Mobile View - Circular Slideable Layout -->
+            <div class="category-slider mobile-view">
+                <div class="slider-container">
+                    <div class="slider-track" id="sliderTrack">
+                        <!-- Slide 1 - Necklaces -->
+                        <div class="slider-slide">
+                            <div class="category-circle">
+                                <div class="circle-img">
+                                    <img src="https://i.ibb.co/WN25nbC6/heart-shape-silver-necklace-for-girls.jpg" alt="Necklaces">
+                                </div>
+                                <div class="circle-content">
+                                    <h3>Necklaces</h3>
+                                    <p>Elegant necklaces that complement your style and grace.</p>
+                                    <a href="/Necklace/necklaces.html" class="btn">View</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 2 - Bracelets -->
+                        <div class="slider-slide">
+                            <div class="category-circle">
+                                <div class="circle-img">
+                                    <img src="https://i.ibb.co/PztwzSBs/pexels-photo-10030285.jpg" alt="Bracelets">
+                                </div>
+                                <div class="circle-content">
+                                    <h3>Bracelets</h3>
+                                    <p>Charming bracelets that add elegance to your wrist.</p>
+                                    <a href="#" class="btn">View</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Slide 3 - Earrings -->
+                        <div class="slider-slide">
+                            <div class="category-circle">
+                                <div class="circle-img">
+                                    <img src="https://i.ibb.co/d0XSvSMk/20220920-070643090-i-OS-1800x1800.jpg" alt="Earrings">
+                                </div>
+                                <div class="circle-content">
+                                    <h3>Earrings</h3>
+                                    <p>Stunning earrings that frame your face beautifully.</p>
+                                    <a href="#" class="btn">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation Dots -->
+                    <div class="slider-dots">
+                        <span class="dot active" data-slide="0"></span>
+                        <span class="dot" data-slide="1"></span>
+                        <span class="dot" data-slide="2"></span>
+                    </div>
+                    
+                    <!-- Navigation Arrows -->
+                    <button class="slider-arrow prev-arrow">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-arrow next-arrow">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
             </div>
         </div>
@@ -965,7 +1102,7 @@
                             <i class="fas fa-star"></i>
                             <i class="fas fa-star-half-alt"></i>
                         </div>
-                        <a href="#" class="add-to-cart"><i class="fas fa-shopping-bag"></i> Out Of Stock</a>
+                        <a href="Necklace/necklaces.html" class="add-to-cart"><i class="fas fa-shopping-bag"></i>Buy Now</a>
                     </div>
                 </div>
                 
@@ -1040,7 +1177,7 @@
             
             <div class="about-container">
                 <div class="about-img">
-                    <img src="https://i.ibb.co/cXJ7xNdS/Picsart-25-12-01-10-27-04-106.png"  alt="About Eastern Lumine">
+                    <img src="https://i.ibb.co/cXJ7xNdS/Picsart-25-12-01-10-27-04-106.png" alt="About Eastern Lumine">
                 </div>
                 
                 <div class="about-content">
@@ -1086,58 +1223,7 @@
         </div>
     </section>
     
-    <!-- Instagram Section -->
-    <section class="instagram">
-        <div class="container">
-            <div class="section-title">
-                <h2>Follow Us On Instagram</h2>
-                <p>Share your moments with #EasternLumine and get featured on our page</p>
-            </div>
-            
-            <div class="instagram-grid">
-                <div class="instagram-item">
-                    <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Instagram Post">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </div>
-                
-                <div class="instagram-item">
-                    <img src="https://images.unsplash.com/photo-1599643478518-17488fbbcd75?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80" alt="Instagram Post">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </div>
-                
-                <div class="instagram-item">
-                    <img src="https://images.unsplash.com/photo-1611591437281-460bfbe1220a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Instagram Post">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </div>
-                
-                <div class="instagram-item">
-                    <img src="https://images.unsplash.com/photo-1596944924616-b0e121b637d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1171&q=80" alt="Instagram Post">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </div>
-                
-                <div class="instagram-item">
-                    <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Instagram Post">
-                    <div class="instagram-overlay">
-                        <i class="fab fa-instagram"></i>
-                    </div>
-                </div>
-            </div>
-            
-            <div style="text-align: center; margin-top: 40px;">
-                <a href="https://instagram.com/easternlumine" class="btn" target="_blank">
-                    <i class="fab fa-instagram"></i> Follow @easternlumine
-                </a>
-            </div>
-        </div>
-    </section>
+
     
     <!-- Footer -->
     <footer id="footer">
@@ -1280,6 +1366,82 @@
                     });
                 }
             });
+        });
+        
+        // Circular Category Slider
+        const sliderTrack = document.getElementById('sliderTrack');
+        const slides = document.querySelectorAll('.slider-slide');
+        const dots = document.querySelectorAll('.dot');
+        const prevArrow = document.querySelector('.prev-arrow');
+        const nextArrow = document.querySelector('.next-arrow');
+
+        let currentSlide = 0;
+        const totalSlides = slides.length;
+
+        // Function to update slider position
+        function updateSlider() {
+            sliderTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+            
+            // Update active dot
+            dots.forEach((dot, index) => {
+                if (index === currentSlide) {
+                    dot.classList.add('active');
+                } else {
+                    dot.classList.remove('active');
+                }
+            });
+        }
+
+        // Next slide
+        nextArrow.addEventListener('click', () => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        });
+
+        // Previous slide
+        prevArrow.addEventListener('click', () => {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        });
+
+        // Dot navigation
+        dots.forEach(dot => {
+            dot.addEventListener('click', () => {
+                currentSlide = parseInt(dot.getAttribute('data-slide'));
+                updateSlider();
+            });
+        });
+
+        // Auto slide every 5 seconds (optional)
+        setInterval(() => {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }, 10000);
+
+        // Touch/swipe support for mobile
+        let startX = 0;
+        let endX = 0;
+
+        sliderTrack.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        sliderTrack.addEventListener('touchmove', (e) => {
+            endX = e.touches[0].clientX;
+        });
+
+        sliderTrack.addEventListener('touchend', () => {
+            const threshold = 50;
+            
+            if (startX - endX > threshold) {
+                // Swipe left - next slide
+                currentSlide = (currentSlide + 1) % totalSlides;
+                updateSlider();
+            } else if (endX - startX > threshold) {
+                // Swipe right - previous slide
+                currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+                updateSlider();
+            }
         });
     </script>
 </body>
